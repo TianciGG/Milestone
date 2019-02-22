@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.milestone.db.dao.ObjectiveDAO">
+  <resultMap id="BaseResultMap" type="com.milestone.db.entity.Objective">
+    <id column="Objective_id" jdbcType="VARCHAR" property="objectiveId" />
+    <id column="Objective_uid" jdbcType="VARCHAR" property="objectiveUid" />
+    <result column="Objective_emphasize" jdbcType="VARCHAR" property="objectiveEmphasize" />
+    <result column="Objective_title" jdbcType="VARCHAR" property="objectiveTitle" />
+    <result column="Objective_remark" jdbcType="VARCHAR" property="objectiveRemark" />
+    <result column="Objective_begindatetime" jdbcType="VARCHAR" property="objectiveBegindatetime" />
+    <result column="Objective_enddatetime" jdbcType="VARCHAR" property="objectiveEnddatetime" />
+    <result column="Objective_finishdatetime" jdbcType="VARCHAR" property="objectiveFinishdatetime" />
+    <result column="Objective_status" jdbcType="VARCHAR" property="objectiveStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Objective_id, Objective_uid, Objective_emphasize, Objective_title, Objective_remark, Objective_begindatetime, 
+    Objective_enddatetime, Objective_finishdatetime, Objective_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from objective
+    where Objective_id = #{objectiveId,jdbcType=VARCHAR}
+  </select>
+  <!-- 后台首页我的目标分页查询 -->
+   <select id="searchMyTargetByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from objective
+    where Objective_uid = #{userId,jdbcType=VARCHAR} 
+    and Objective_status='0'
+  </select>
+  <!-- 后台首页强调分页查询 -->
+   <select id="selectEmphasizeInfoByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from objective
+    where Objective_uid = #{userId,jdbcType=VARCHAR} 
+    and Objective_emphasize='1' 
+    and Objective_status='0'
+  </select>
+  <!-- 后台首页标准分页查询 -->
+   <select id="selectStandardInfoByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from objective
+    where Objective_uid = #{userId,jdbcType=VARCHAR} 
+    and Objective_emphasize='0' 
+    and Objective_status='0'
+  </select>
+  <!-- 后台首页里程碑中分页查询 -->
+   <select id="searchMyMilestoneByUidAndTitleContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from objective
+    where Objective_uid = #{userId,jdbcType=VARCHAR} 
+    and Objective_title like concat(concat('%',#{objectiveTitle}),'%')
+    and Objective_status='1'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from objective
+    where Objective_id = #{objectiveId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.milestone.db.entity.Objective">
+    insert into objective (Objective_id, Objective_uid, Objective_emphasize, 
+      Objective_title, Objective_remark, Objective_begindatetime, 
+      Objective_enddatetime, Objective_finishdatetime, 
+      Objective_status)
+    values (#{objectiveId,jdbcType=VARCHAR}, #{objectiveUid,jdbcType=VARCHAR}, #{objectiveEmphasize,jdbcType=VARCHAR}, 
+      #{objectiveTitle,jdbcType=VARCHAR}, #{objectiveRemark,jdbcType=VARCHAR}, #{objectiveBegindatetime,jdbcType=VARCHAR}, 
+      #{objectiveEnddatetime,jdbcType=VARCHAR}, #{objectiveFinishdatetime,jdbcType=VARCHAR}, 
+      #{objectiveStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.milestone.db.entity.Objective">
+    insert into objective
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="objectiveId != null">
+        Objective_id,
+      </if>
+      <if test="objectiveUid != null">
+        Objective_uid,
+      </if>
+      <if test="objectiveEmphasize != null">
+        Objective_emphasize,
+      </if>
+      <if test="objectiveTitle != null">
+        Objective_title,
+      </if>
+      <if test="objectiveRemark != null">
+        Objective_remark,
+      </if>
+      <if test="objectiveBegindatetime != null">
+        Objective_begindatetime,
+      </if>
+      <if test="objectiveEnddatetime != null">
+        Objective_enddatetime,
+      </if>
+      <if test="objectiveFinishdatetime != null">
+        Objective_finishdatetime,
+      </if>
+      <if test="objectiveStatus != null">
+        Objective_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="objectiveId != null">
+        #{objectiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveUid != null">
+        #{objectiveUid,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveEmphasize != null">
+        #{objectiveEmphasize,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveTitle != null">
+        #{objectiveTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveRemark != null">
+        #{objectiveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveBegindatetime != null">
+        #{objectiveBegindatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveEnddatetime != null">
+        #{objectiveEnddatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveFinishdatetime != null">
+        #{objectiveFinishdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveStatus != null">
+        #{objectiveStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.milestone.db.entity.Objective">
+    update objective
+    <set>
+      <if test="objectiveEmphasize != null">
+        Objective_emphasize = #{objectiveEmphasize,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveTitle != null">
+        Objective_title = #{objectiveTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveRemark != null">
+        Objective_remark = #{objectiveRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveBegindatetime != null">
+        Objective_begindatetime = #{objectiveBegindatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveEnddatetime != null">
+        Objective_enddatetime = #{objectiveEnddatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveFinishdatetime != null">
+        Objective_finishdatetime = #{objectiveFinishdatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveStatus != null">
+        Objective_status = #{objectiveStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Objective_id = #{objectiveId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.milestone.db.entity.Objective">
+    update objective
+    set Objective_emphasize = #{objectiveEmphasize,jdbcType=VARCHAR},
+      Objective_title = #{objectiveTitle,jdbcType=VARCHAR},
+      Objective_remark = #{objectiveRemark,jdbcType=VARCHAR},
+      Objective_begindatetime = #{objectiveBegindatetime,jdbcType=VARCHAR},
+      Objective_enddatetime = #{objectiveEnddatetime,jdbcType=VARCHAR},
+      Objective_finishdatetime = #{objectiveFinishdatetime,jdbcType=VARCHAR},
+      Objective_status = #{objectiveStatus,jdbcType=VARCHAR}
+    where Objective_id = #{objectiveId,jdbcType=VARCHAR}
+  </update>
+</mapper>

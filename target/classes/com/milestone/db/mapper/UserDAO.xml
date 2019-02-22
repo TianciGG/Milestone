@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.milestone.db.dao.UserDAO">
+  <resultMap id="BaseResultMap" type="com.milestone.db.entity.User">
+    <id column="User_id" jdbcType="VARCHAR" property="userId" />
+    <result column="User_name" jdbcType="VARCHAR" property="userName" />
+    <result column="User_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="User_mail" jdbcType="VARCHAR" property="userMail" />
+    <result column="User_nickName" jdbcType="VARCHAR" property="userNickName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    User_id, User_name, User_password, User_mail ,User_nickName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where User_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where User_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.milestone.db.entity.User">
+    insert into user (User_id, User_name, User_password, 
+      User_mail,User_nickName)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userMail,jdbcType=VARCHAR},#{userNickName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.milestone.db.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        User_id,
+      </if>
+      <if test="userName != null">
+        User_name,
+      </if>
+      <if test="userPassword != null">
+        User_password,
+      </if>
+      <if test="userMail != null">
+        User_mail,
+      </if>
+      <if test="userNickName != null">
+        User_nickName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null">
+        #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickName != null">
+        #{userNickName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.milestone.db.entity.User">
+    update user
+    <set>
+      <if test="userName != null">
+        User_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        User_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null">
+        User_mail = #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickName != null">
+        User_nickName = #{userNickName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where User_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.milestone.db.entity.User">
+    update user
+    set User_name = #{userName,jdbcType=VARCHAR},
+      User_password = #{userPassword,jdbcType=VARCHAR},
+      User_mail = #{userMail,jdbcType=VARCHAR},
+      User_nickName = #{userNickName,jdbcType=VARCHAR}
+    where User_id = #{userId,jdbcType=VARCHAR}
+  </update>
+   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where User_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where User_mail = #{mail,jdbcType=VARCHAR}
+  </select>
+</mapper>

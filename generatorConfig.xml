@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="context1">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/milestone"
+			driverClass="com.mysql.jdbc.Driver" password="root" userId="root" />
+		<javaModelGenerator targetPackage="com.milestone.db.entity"
+			targetProject="Test/src/main/java">
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.milestone.db.mapper"
+			targetProject="Test/src/main/resources" />
+		<javaClientGenerator targetPackage="com.milestone.db.dao"
+			targetProject="Test/src/main/java" type="XMLMAPPER" />
+
+
+
+		<table schema="milestone" tableName="user" mapperName="UserDAO"
+			domainObjectName="User" enableCountByExample="false"
+			enableSelectByExample="false" enableDeleteByExample="false"
+			enableUpdateByExample="false">
+			<columnRenamingRule searchString="^t_"
+				replaceString="" />
+		</table>
+
+		<table schema="milestone" tableName="objective" mapperName="ObjectiveDAO"
+			domainObjectName="Objective" enableCountByExample="false"
+			enableSelectByExample="false" enableDeleteByExample="false"
+			enableUpdateByExample="false">
+			<columnRenamingRule searchString="^t_"
+				replaceString="" />
+		</table>
+
+		
+
+	</context>
+</generatorConfiguration>
